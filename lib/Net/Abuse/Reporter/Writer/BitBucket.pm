@@ -1,8 +1,9 @@
 package Net::Abuse::Reporter::Writer::BitBucket;
 
-use base qw( Net::Abuse::Reporter::Writer );
+use 5.018;
+use utf8;
 
-sub register_as { 'bitbucket' }
+use base qw( Net::Abuse::Reporter::Writer );
 
 sub setup {
     my $self = shift;

@@ -1,6 +1,6 @@
 package Net::Abuse::Reporter::Reader::CLF;
 
-use 5.020;
+use 5.018;
 use utf8;
 
 use DateTime::Format::Strptime;
@@ -11,8 +11,6 @@ our $CLF_FORMAT = DateTime::Format::Strptime->new(
     pattern => '%d/%b/%Y:%H:%M:%S %z',
     locale => 'en_US',
 );
-
-sub register_as { [qw( apache nginx clf )] }
 
 sub parse {
     # 127.0.0.1 user-identifier frank [10/Oct/2000:13:55:36 -0700] "GET /apache_pb.gif HTTP/1.0" 200 2326
