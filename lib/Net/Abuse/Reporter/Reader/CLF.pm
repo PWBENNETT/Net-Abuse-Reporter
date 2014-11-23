@@ -3,7 +3,14 @@ package Net::Abuse::Reporter::Reader::CLF;
 use 5.020;
 use utf8;
 
+use DateTime::Format::Strptime;
+
 use base qw( Net::Abuse::Reporter::Reader );
+
+our $CLF_FORMAT = DateTime::Format::Strptime->new(
+    pattern => '%d/%b/%Y:%H:%M:%S %z',
+    locale => 'en_US',
+);
 
 sub register_as { [qw( apache nginx clf )] }
 
@@ -13,14 +20,19 @@ sub parse {
     my $self = shift;
     my ($line) = @_;
     my %rv;
-    if ($line =~ qr/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s(\S+)\s(\S+)\s(\[[^\]]+)\s("[^"]+")\s(\d+)\s(\d+)/io) {
-        @rv{qw( ipv4 identity user dt req code size ) } = ($1, $2, $3, $4, $5, $6, $7);
+    if ($line =~ qr/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s(\S+)\s(\S+)\s\[([^\]]+)\]\s("[^"]+")\s(\d+)\s(\d+)/io) {
+        @rv{qw( ip identity user dt req code size ) } = ($1, $2, $3, $4, $5, $6, $7);
     }
-    elsif ($line =~ qr/^([0-9a-f:]{2,})\s(\S+)\s(\S+)\s(\[[^\]]+)\s("[^"]+")\s(\d+)\s(\d+)/io) {
-        @rv{qw( ipv6 identity user dt req code size ) } = ($1, $2, $3, $4, $5, $6, $7);
+    elsif ($line =~ qr/^([0-9a-f:]{2,})\s(\S+)\s(\S+)\s\[([^\]]+)\]\s("[^"]+")\s(\d+)\s(\d+)/io) {
+        @rv{qw( ip identity user dt req code size ) } = ($1, $2, $3, $4, $5, $6, $7);
     }
     %rv = %{$self->normalize(\%rv)};
     return \%rv;
+}
+
+sub _normalize_special {
+    my $rv = shift;
+    $rv->{ epoch } = $CLF_FORMAT->parse_datetime(delete $rv->{ dt })->epoch;
 }
 
 sub setup {
@@ -31,11 +43,6 @@ sub setup {
 sub new_setup_is_needed {
     my $self = shift;
     return 0;
-}
-
-sub send {
-    my $self = shift;
-    return 1;
 }
 
 sub teardown {
