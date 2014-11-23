@@ -26,13 +26,13 @@ sub parse {
     elsif ($line =~ qr/^([0-9a-f:]{2,})\s(\S+)\s(\S+)\s\[([^\]]+)\]\s("[^"]+")\s(\d+)\s(\d+)/io) {
         @rv{qw( ip identity user dt req code size ) } = ($1, $2, $3, $4, $5, $6, $7);
     }
-    %rv = %{$self->normalize(\%rv)};
     return \%rv;
 }
 
 sub _normalize_special {
     my $rv = shift;
     $rv->{ epoch } = $CLF_FORMAT->parse_datetime(delete $rv->{ dt })->epoch;
+    return $rv;
 }
 
 sub setup {
