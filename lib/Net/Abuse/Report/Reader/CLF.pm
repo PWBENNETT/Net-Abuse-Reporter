@@ -21,7 +21,7 @@ sub parse {
     my %rv;
     if ($line =~ /^\@([0-9a-f]{16}|[0-9a-f]{24}|[0-9a-f]{32})/io) {
         my $tai = $1;
-        $rv{ tai64 } = pack 'N*', map { hex $_ } split /(..)/, $tai;
+        $rv{ tai64 } = pack 'U*', map { hex $_ } split /(..)/, $tai;
         $line =~ s/^\@$tai//;
     }
     if ($line =~ qr/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s(\S+)\s(\S+)\s\[([^\]]+)\]\s("[^"]+")\s(\d+)\s(\d+)/io) {
