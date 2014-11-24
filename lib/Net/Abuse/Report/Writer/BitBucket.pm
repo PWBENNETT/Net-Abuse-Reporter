@@ -1,4 +1,4 @@
-package Net::Abuse::Reporter::Writer::BitBucket;
+package Net::Abuse::Report::Writer::BitBucket;
 
 use 5.018;
 use utf8;

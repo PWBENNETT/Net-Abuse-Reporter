@@ -1,4 +1,4 @@
-package Net::Abuse::Reporter::Reader::CLF;
+package Net::Abuse::Report::Reader::CLF;
 
 use 5.018;
 use utf8;
