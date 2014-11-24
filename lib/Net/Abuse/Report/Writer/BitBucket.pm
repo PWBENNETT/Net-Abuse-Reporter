@@ -3,7 +3,7 @@ package Net::Abuse::Report::Writer::BitBucket;
 use 5.018;
 use utf8;
 
-use base qw( Net::Abuse::Reporter::Writer );
+use base qw( Net::Abuse::Report::Writer );
 
 sub setup {
     my $self = shift;

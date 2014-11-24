@@ -6,7 +6,7 @@ use utf8;
 use DateTime::Format::Strptime;
 use Time::TAI64 qw( :tai );
 
-use base qw( Net::Abuse::Reporter::Reader );
+use base qw( Net::Abuse::Report::Reader );
 
 our $CLF_FORMAT = DateTime::Format::Strptime->new(
     pattern => '%d/%b/%Y:%H:%M:%S %z',
