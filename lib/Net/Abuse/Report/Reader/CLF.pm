@@ -34,7 +34,8 @@ sub parse {
 }
 
 sub _normalize_special {
-    my $rv = shift;
+    my $self = shift;
+    my ($rv) = @_;
     $rv->{ incident_time } = $CLF_FORMAT->parse_datetime(delete $rv->{ clf_dt })->epoch;
     $rv->{ detection_time } = $rv->{ tai64 } ? tai2unix(delete $rv->{ tai64 }) : $rv->{ incident_time };
     return $rv;
