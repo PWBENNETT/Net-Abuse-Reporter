@@ -23,3 +23,24 @@ It's made of plugins
 --------------------
 
 The `add_incident` and `send_report` methods are entirely pluggable (assuming the plugins adhere to the expected APIs). This allows you to write your own log format readers, and abuse report writers, either for proprietary use, or to release into the wild.
+
+Built-in reader plugins (will) include at least:
+
+ * RFC 2822 Email
+ * NCSA Common log format (used by Apache / Nginx, etc)
+ * IPTables
+ * pfSense
+ * Fail2ban
+ * Wireshark
+
+There will also be a "Custom" reader engine, using the Marpa::R2::Scanless parsing engine, allowing you to define custom log readers using EBNF with a little "configuration by convention" in the naming of your EBNF productions.
+
+Built-in writer plugins (will) include at least:
+
+ * "bitbucket" null sink, for testing
+ * ARF
+ * X-ARF
+ * RFC 5965 MARF
+ * RFC 5070 IODEF
+
+Writer plugins (will) adhere where applicable to RFC 6650 (dealing with receiver-friendly ways to send abuse complaints)
